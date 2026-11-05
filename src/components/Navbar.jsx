@@ -161,7 +161,11 @@ function NotificationsMenu() {
               return (
                 <li key={n.id}>
                   {target ? (
-                    <button type="button" className={cn(cls, 'cursor-pointer hover:bg-slate-50')} onClick={() => navigate(target)}>
+                    <button type="button" className={cn(cls, 'cursor-pointer hover:bg-slate-50')} onClick={() => {
+                        setOpen(false)
+                        navigate(target)
+                      }}
+                    >
                       {body}
                     </button>
                   ) : (
@@ -173,7 +177,7 @@ function NotificationsMenu() {
           </ul>
         )}
         <div className="border-t border-line p-2">
-          <Link to="/connections" className="btn-ghost btn-sm w-full text-primary hover:text-primary-hover">
+          <Link to="/connections" onClick={() => setOpen(false)} className="btn-ghost btn-sm w-full text-primary hover:text-primary-hover">
             View connection requests
           </Link>
         </div>
@@ -216,10 +220,10 @@ function ProfileMenu() {
           </div>
         </div>
         <div className="p-2">
-          <Link to="/profile" className={item}>
+          <Link to="/profile" onClick={() => setOpen(false)} className={item}>
             <User className="size-4 text-muted" aria-hidden="true" /> My Profile
           </Link>
-          <Link to="/connections" className={item}>
+          <Link to="/connections" onClick={() => setOpen(false)} className={item}>
             <Users className="size-4 text-muted" aria-hidden="true" />
             <span className="flex-1">Connections</span>
             {received > 0 && <span className="chip-primary">{received} new</span>}
@@ -304,7 +308,7 @@ function MobileDrawer({ open, onClose }) {
 
   return (
     <Modal open={open} onClose={onClose} variant="drawer-right" size="sm" title="Menu" bodyClassName="px-3 py-4 sm:px-3">
-      <nav aria-label="Mobile" className="flex h-full flex-col">
+      <nav aria-label="Mobile" className="flex h-full flex-col" onClick={(e) => e.target.closest?.("a") && onClose()}>
         {isAuthenticated ? (
           <Link to="/profile" className="mb-4 flex items-center gap-3 rounded-2xl border border-line p-3 transition hover:bg-slate-50">
             <ImageWithFallback src={user?.image} alt="" kind="avatar" name={user?.name} className="size-12 shrink-0 rounded-full" />
